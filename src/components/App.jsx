@@ -5,20 +5,22 @@ import { MovieCard } from "./MovieCard";
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 
 const App =  () => {
-    const [moviesArr, setMoviesArr] = useState([{id:0}]);
+    const [moviesArr, setMoviesArr] = useState([]);
     useEffect(()=>{
         const fetchFunc = async () => {
             const response = await getAPIdata({
                 type: ACTIONS_LIST.GET_MOVIES_FEATURING,
                 person_id: 31 // Tom Hanks ID
             })
-            setMoviesArr(response.cast)
+            console.log(response)
+            if (response) setMoviesArr(response.cast)
         }
         fetchFunc();
     },[])
 
     return (
         <>
+            
             { moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> ) }
         </>
     );
