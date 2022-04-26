@@ -1,8 +1,9 @@
 
-import { useEffect, useState } from "react/cjs/react.development";
+import { useState } from "react/cjs/react.development";
 
 import { MovieCard } from "./MovieCard";
 import { ArtistCard } from "./ArtistCard";
+import DragDrop from "./DragDrop";
 
 import { Input, Space, Button } from "antd";
 
@@ -24,17 +25,20 @@ const fetchMovies = async (person_id) => {
 
 const App =  () => {
     const [artistArr, setArtistArr] = useState([]);
-    const [artistID, setArtistID] = useState({});
+    const [artistID, setArtistID] = useState();
     const [artistInfo, setArtistInfo] = useState({});
     const [moviesArr, setMoviesArr] = useState([]);
 
     const onSearch = async (searchedArtist) => {
+        setArtistID();
         if (searchedArtist.trim().length != 0){
             const response = await getAPIdata({
                 type: ACTIONS_LIST.SEARCH_FOR_ARTIST,
                 searchedArtist
             })
-            setArtistArr(response.results)
+            setArtistArr(response.results);
+            if (response.results.length == 1) 
+                onClick({ currentTarget:{ dataset:{ id: response.results[0].id }}})
         }
     }
 
@@ -50,6 +54,7 @@ const App =  () => {
 
     return (
         <>
+            <DragDrop onSearch={onSearch}/>
             <Space direction="vertical">
                 <Input.Search
                     placeholder="input search text"
@@ -61,7 +66,7 @@ const App =  () => {
             </Space>
             <ul>
                 { artistArr.map((artist) => 
-                    <li key={ artist.name }> 
+                    <li key={ artist.id }> 
                         {artist.name} 
                         <Button onClick={onClick} data-id={artist.id}>
                             Pick
