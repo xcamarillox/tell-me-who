@@ -7,9 +7,7 @@ export const ACTIONS_LIST = {
     SEARCH_FOR_ARTIST: 'SEARCH_FOR_ARTIST'
 }
 
-export const getImgEndpoint = (img_path) => {
-    return 'https://image.tmdb.org/t/p/w500' + img_path;
-}
+export const getImgEndpoint = (img_path) => 'https://image.tmdb.org/t/p/w500' + img_path;
 
 export const getAPIdata = async (action) => {
     let endpoint
@@ -32,10 +30,7 @@ export const getAPIdata = async (action) => {
 const fetchFunctionGET = async (endpoint)=> {
     try {
         const response = await fetch(endpoint);
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            return jsonResponse;
-        }
+        if (response.ok) return await response.json();
         throw new Error('Request failed! Response...', response);
     } catch (error) {
         console.log(error);

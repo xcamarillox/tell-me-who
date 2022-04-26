@@ -1,38 +1,76 @@
 
 import { useEffect, useState } from "react/cjs/react.development";
+
 import { MovieCard } from "./MovieCard";
 import { ArtistCard } from "./ArtistCard";
 
+import { Input, Space, Button } from "antd";
+
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 
+const fetchArtist = async (person_id) => {
+    return await getAPIdata({
+        type: ACTIONS_LIST.GET_ARTIST_DATA,
+        person_id
+    })
+}
+
+const fetchMovies = async (person_id) => {
+    return await getAPIdata({
+        type: ACTIONS_LIST.GET_FEATURING_MOVIES,
+        person_id
+    })
+}
+
 const App =  () => {
-    const [artist, setArtist] = useState({});
+    const [artistArr, setArtistArr] = useState([]);
+    const [artistID, setArtistID] = useState({});
+    const [artistInfo, setArtistInfo] = useState({});
     const [moviesArr, setMoviesArr] = useState([]);
-    useEffect(()=>{
-        const fetchArtist = async () => {
+
+    const onSearch = async (searchedArtist) => {
+        if (searchedArtist.trim().length != 0){
             const response = await getAPIdata({
-                type: ACTIONS_LIST.GET_ARTIST_DATA,
-                person_id: 31 // Tom Hanks ID
+                type: ACTIONS_LIST.SEARCH_FOR_ARTIST,
+                searchedArtist
             })
-            console.log(response)
-            if (response) setArtist(response)
+            setArtistArr(response.results)
         }
-        const fetchMovies = async () => {
-            const response = await getAPIdata({
-                type: ACTIONS_LIST.GET_FEATURING_MOVIES,
-                person_id: 31 // Tom Hanks ID
-            })
-            console.log(response)
-            if (response) setMoviesArr(response.cast)
-        }
-        fetchArtist();
-        fetchMovies();
-    },[])
+    }
+
+    const onClick = async (e) => {
+        let response;
+        let artist_id = e.currentTarget.dataset.id;
+        setArtistID(artist_id);
+        response = await fetchArtist(artist_id)
+        if (response) setArtistInfo(response);
+        response = await fetchMovies(artist_id)
+        if (response) setMoviesArr(response.cast);
+    }
 
     return (
         <>
-            <ArtistCard artist={artist} />
-            { moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> ) }
+            <Space direction="vertical">
+                <Input.Search
+                    placeholder="input search text"
+                    allowClear
+                    enterButton="Search"
+                    size="large"
+                    onSearch={onSearch}
+                />
+            </Space>
+            <ul>
+                { artistArr.map((artist) => 
+                    <li key={ artist.name }> 
+                        {artist.name} 
+                        <Button onClick={onClick} data-id={artist.id}>
+                            Pick
+                        </Button> 
+                    </li>
+                )}
+            </ul>
+            { artistID && <ArtistCard artist={artistInfo} /> }
+            { artistID && moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> )}
         </>
     );
 }

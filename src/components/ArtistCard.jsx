@@ -1,5 +1,5 @@
-import { Card } from 'antd';
-import { Image } from 'antd';
+import { Card, Image } from 'antd';
+
 import { getImgEndpoint } from '../scripts/api-helpers';
 
 export const ArtistCard = ({artist}) => {
