@@ -1,5 +1,6 @@
-
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
+
 import { Input } from "antd";
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
@@ -63,11 +64,24 @@ const App =  () => {
     return (
         <>
             <Navbar/>
-            <DragDrop onSearch={onSearch}/>
-            <Input.Search {...inputSearchProps}/>
-            <ArtistList onClick={onClick} artistArr={artistArr} />
-            { artistID && <ArtistCard artist={artistInfo} /> }
-            { artistID && moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> )}
+            <Routes>
+                <Route path="home" element={
+                    <>
+                        <DragDrop onSearch={onSearch}/>
+                        <Input.Search {...inputSearchProps}/>
+                    </>
+                }/>
+                <Route path="filter" element={ 
+                    <ArtistList onClick={onClick} artistArr={artistArr}/> 
+                }/>
+                <Route path="artist"  element={
+                    <>
+                        { artistID && <ArtistCard artist={artistInfo}/> }
+                        { artistID && moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> )}
+                    </>
+                }/>
+                <Route path="*" element={<Navigate to='home'/>} />
+            </Routes>
         </>
     );
 }
