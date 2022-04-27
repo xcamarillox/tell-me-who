@@ -1,13 +1,13 @@
 
 import { useState } from "react/cjs/react.development";
-
-import { MovieCard } from "./MovieCard";
-import { ArtistCard } from "./ArtistCard";
-import DragDrop from "./DragDrop";
-
-import { Input, Space, Button } from "antd";
+import { Input } from "antd";
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
+import MovieCard from "./MovieCard";
+import ArtistCard from "./ArtistCard";
+import DragDrop from "./DragDrop";
+import ArtistList from "./ArtistList";
+import Navbar from "./Navbar";
 
 const fetchArtist = async (person_id) => {
     return await getAPIdata({
@@ -52,28 +52,20 @@ const App =  () => {
         if (response) setMoviesArr(response.cast);
     }
 
+    const inputSearchProps = {
+        placeholder:"input search text",
+        allowClear: true,
+        enterButton:"Search",
+        size:"large",
+        onSearch
+    }
+
     return (
         <>
+            <Navbar/>
             <DragDrop onSearch={onSearch}/>
-            <Space direction="vertical">
-                <Input.Search
-                    placeholder="input search text"
-                    allowClear
-                    enterButton="Search"
-                    size="large"
-                    onSearch={onSearch}
-                />
-            </Space>
-            <ul>
-                { artistArr.map((artist) => 
-                    <li key={ artist.id }> 
-                        {artist.name} 
-                        <Button onClick={onClick} data-id={artist.id}>
-                            Pick
-                        </Button> 
-                    </li>
-                )}
-            </ul>
+            <Input.Search {...inputSearchProps}/>
+            <ArtistList onClick={onClick} artistArr={artistArr} />
             { artistID && <ArtistCard artist={artistInfo} /> }
             { artistID && moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> )}
         </>
