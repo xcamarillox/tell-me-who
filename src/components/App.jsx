@@ -1,3 +1,5 @@
+import { Layout, Row, Col } from 'antd';
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
 
@@ -63,7 +65,7 @@ const App =  () => {
 
     return (
         <>
-            <Navbar/>
+            <Navbar />
             <Routes>
                 <Route path="home" element={
                     <>
@@ -74,14 +76,24 @@ const App =  () => {
                 <Route path="filter" element={ 
                     <ArtistList onClick={onClick} artistArr={artistArr}/> 
                 }/>
-                <Route path="artist"  element={
-                    <>
-                        { artistID && <ArtistCard artist={artistInfo}/> }
-                        { artistID && moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id}/> )}
-                    </>
+                <Route path="artist"  element= {
+                    <>      
+                            <Row justify='center'>
+                                <Col sm={24} md={6} lg={4}>
+                                    { artistID && <ArtistCard artist={artistInfo} /> }
+                                </Col>
+                                <Col sm={24} md={18} lg={20}>
+                                    { artistID && 
+                                    <div style={{ marginTop: 75 }}>
+                                        { moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id} />) }
+                                    </div>}
+                                </Col>
+                            </Row>
+                    </>  
                 }/>
                 <Route path="*" element={<Navigate to='home'/>} />
             </Routes>
+            
         </>
     );
 }

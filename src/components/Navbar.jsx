@@ -17,5 +17,16 @@ export default () => {
       children: [{ label: 'item 3' }],
     },
   ];
-  return <Menu mode="horizontal" defaultSelectedKeys={['home']} items={items} onClick={ onClickHandler }/>;
+  return <Menu mode="horizontal" 
+          defaultSelectedKeys={['home']}
+          style={{ 
+            width: '100%', 
+            backgroundColor:'white', 
+            height:60, 
+            position:'fixed',
+            zIndex: 1, 
+            padding:0,
+          }}
+          items={items} 
+          onClick={ onClickHandler }/>;
 };
