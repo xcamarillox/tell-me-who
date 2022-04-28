@@ -6,7 +6,7 @@ import { useState } from "react/cjs/react.development";
 import { Input } from "antd";
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
-import MovieCard from "./MovieCard";
+import MoviesList from "./MoviesList";
 import ArtistCard from "./ArtistCard";
 import DragDrop from "./DragDrop";
 import ArtistList from "./ArtistList";
@@ -77,19 +77,17 @@ const App =  () => {
                     <ArtistList onClick={onClick} artistArr={artistArr}/> 
                 }/>
                 <Route path="artist"  element= {
-                    <>      
-                            <Row justify='center'>
-                                <Col sm={24} md={6} lg={4}>
-                                    { artistID && <ArtistCard artist={artistInfo} /> }
-                                </Col>
-                                <Col sm={24} md={18} lg={20}>
-                                    { artistID && 
-                                    <div style={{ marginTop: 75 }}>
-                                        { moviesArr.map((movie) => <MovieCard movie={movie} key={movie.id} />) }
-                                    </div>}
-                                </Col>
-                            </Row>
-                    </>  
+                    <Layout>
+                        <Layout.Sider className='sider-artist'>
+                            { artistID && <ArtistCard artist={artistInfo} /> }
+                        </Layout.Sider>
+                        <Layout.Content>
+                            <ArtistCard artist={artistInfo} className='top-artist' />
+                            { artistID && 
+                                <MoviesList moviesArr={moviesArr} />
+                            }
+                        </Layout.Content>
+                    </Layout>
                 }/>
                 <Route path="*" element={<Navigate to='home'/>} />
             </Routes>

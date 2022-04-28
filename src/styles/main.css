@@ -11,3 +11,43 @@ body,
     width: 100%;
 }
 
+.movies-list {
+    margin-top: 75px;
+    margin-left: 200px;
+}
+
+.artist-movies {
+    text-align: center;
+}
+
+.artist-card {
+    width: 100%;
+    margin-top: 60px;
+    text-align: center;
+}
+
+.sider-artist {
+    background-color: white;
+    height: 100vh;
+    position: fixed;
+    margin-top: 60;
+    z-index: 1;
+    width: 200;
+}
+
+.top-artist {
+    display: none;
+}
+
+@media only screen and (max-width: 575px) {
+    .sider-artist {
+        display: none;
+    }
+    .movies-list {
+        margin-left: 0px;
+    }
+    .top-artist {
+        display: block;
+        margin-top: 100px;
+    }
+}
