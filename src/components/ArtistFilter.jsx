@@ -1,4 +1,4 @@
-import { Button, Image, Card, Anchor } from "antd";
+import { Card } from "antd";
 
 import { getImgEndpoint } from '../scripts/api-helpers';
 

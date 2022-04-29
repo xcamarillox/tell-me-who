@@ -1,9 +1,6 @@
-import { Layout, Row, Col } from 'antd';
-
-import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
-
-import { Input } from "antd";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Layout, Input } from 'antd';
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 import MoviesList from "./MoviesList";
@@ -56,9 +53,9 @@ const App =  () => {
     }
 
     const inputSearchProps = {
-        placeholder:"input search text",
+        placeholder:"Buscar por nómbre acá...",
         allowClear: true,
-        enterButton:"Search",
+        enterButton:"Buscar",
         size:"large",
         onSearch
     }
@@ -68,10 +65,12 @@ const App =  () => {
             <Navbar />
             <Routes>
                 <Route path="home" element={
-                    <>
-                        <DragDrop onSearch={onSearch}/>
-                        <Input.Search {...inputSearchProps}/>
-                    </>
+                    <div className='home'>
+                        <div style={{ maxWidth:300 }}>
+                            <DragDrop onSearch={onSearch}/>
+                            <Input.Search {...inputSearchProps} style={{ marginTop: 10 }}/>
+                        </div>
+                    </div>
                 }/>
                 <Route path="filter" element={ 
                     <ArtistList onClick={onClick} artistArr={artistArr}/> 

@@ -1,11 +1,8 @@
-
+import { useNavigate  } from 'react-router-dom';
 import { Menu } from "antd";
 import { HomeOutlined, FilterOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
-import { useNavigate  } from 'react-router-dom';
-
 export default () => {
-
   let navigate = useNavigate();
   const onClickHandler = (item) => navigate("/"+item.key.trim(), { replace: true });
   const items = [

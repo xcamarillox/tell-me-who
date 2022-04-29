@@ -21,17 +21,18 @@ export default ({artist, className}) => {
                 }
             <h3>
                 {artist.birthday? artist.birthday: undefined} <br />
-                {!artist.deathday? (artist.birthday? '(' + getAge(artist.birthday) + ' años)':'') : 'Fallecido'}
+                {!artist.deathday? (artist.birthday? getAge(artist.birthday) + ' años':'') : 'Fallecido'}
             </h3>
             <h3>
                 { artist.gender==1? 'Mujer': (artist.gender==2? 'Hombre': 'Genero Indefinido')}
             </h3>
             <h3>
-                { artist.known_for_department=='Acting'? 'Actor/Actriz': (artist.known_for_department=='Directing'? 'Director': undefined)}
+                { artist.known_for_department? 'Conocid@ por:': undefined } <br />
+                { artist.known_for_department=='Acting'? 'Actuar': (artist.known_for_department=='Directing'? 'Dirigir': undefined)}
             </h3>
             <h3>
                 Popularidad: <br />
-                {artist.popularity} <LikeFilled style={{ color:'blue' }}/>
+                {Math.floor(artist.popularity)} <LikeFilled style={{ color:'blue' }}/>
             </h3>
         </div>
     )

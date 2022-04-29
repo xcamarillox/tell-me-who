@@ -3,13 +3,31 @@ import { StarFilled } from '@ant-design/icons';
 
 import { getImgEndpoint } from '../scripts/api-helpers';
 
+const getAge = (dateString) => {
+    let today = new Date();
+    let birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+    return age;
+}
+
 export default ({movie}) => {
     return (
         <Card 
         title={
             <>
                 <div>{movie.title}</div>
-                <div>{movie.release_date}</div>
+                { movie.release_date && 
+                    <div>
+                        {movie.release_date + ' '} 
+                        { getAge(movie.release_date)>1 && 
+                            <>
+                                / {getAge(movie.release_date)} años
+                            </>
+                        }
+                    </div> 
+                }
             </>
         }
         headStyle={{
@@ -18,7 +36,11 @@ export default ({movie}) => {
         }}
         extra={
             <div style={{ color:'white' }}>
-                {movie.vote_average}/10 <StarFilled style={{ color:'yellow' }}/>
+                { movie.vote_average? 
+                    <>
+                        {movie.vote_average} / 10 <StarFilled style={{ color:'yellow' }}/>
+                    </>: 'No votada'
+                }
             </div>
         }
         style={{ margin:15 }}>

@@ -1,7 +1,7 @@
-import { Upload, message } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import { Upload, message, Image } from 'antd';
 
 import { NOMADA } from '../scripts/api-helpers';
+import logo from "../logo.png"
 
 const { Dragger } = Upload;
 
@@ -23,13 +23,13 @@ export default (props) => {
   };
   return (
     <Dragger {...draggerProps}>
+      <h1>Tell me Who ??</h1>
       <p className="ant-upload-drag-icon">
-        <InboxOutlined />
+        <Image preview={false} src={logo} style={{padding:10}} />
       </p>
-      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      <p className="ant-upload-text">Arrastra la imagen del actor/actriz acá...</p>
       <p className="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-        band files
+        Soporta una imagen a la vez.
       </p>
     </Dragger>
   )
