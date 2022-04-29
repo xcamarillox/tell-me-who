@@ -20,6 +20,16 @@ body,
     text-align: center;
 }
 
+.artist-card-filter {
+    justify-content: center;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20;
+    top: 60;
+    gap: 15;
+}
+
 .artist-card {
     width: 100%;
     margin-top: 60px;
@@ -37,6 +47,15 @@ body,
 
 .top-artist {
     display: none;
+}
+
+.navbar {
+    width: 100%;
+    background-color: white;
+    height: 60;
+    position: fixed;
+    z-index: 1;
+    padding: 0;
 }
 
 @media only screen and (max-width: 575px) {

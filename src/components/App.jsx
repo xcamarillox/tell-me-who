@@ -9,7 +9,7 @@ import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 import MoviesList from "./MoviesList";
 import ArtistCard from "./ArtistCard";
 import DragDrop from "./DragDrop";
-import ArtistList from "./ArtistList";
+import ArtistList from "./ArtistFilter";
 import Navbar from "./Navbar";
 
 const fetchArtist = async (person_id) => {
@@ -45,9 +45,9 @@ const App =  () => {
         }
     }
 
-    const onClick = async (e) => {
+    const onClick = async ({id}) => {
         let response;
-        let artist_id = e.currentTarget.dataset.id;
+        let artist_id = id;
         setArtistID(artist_id);
         response = await fetchArtist(artist_id)
         if (response) setArtistInfo(response);
