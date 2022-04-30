@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react/cjs/react.development";
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
 import { Layout, message } from 'antd';
 
+import { clearArr, setArr } from '../store/store-reducer';
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 import MoviesList from "./MoviesList";
 import ArtistCard from "./ArtistCard";
@@ -9,13 +11,11 @@ import SearchAndDrag from "./SearchAndDrag";
 import ArtistFilter from "./ArtistFilter";
 import Navbar from "./Navbar";
 
-const App =  () => {
-    const [artistArr, setArtistArr] = useState();
-    const [artistInfo, setArtistInfo] = useState();
-    const [moviesArr, setMoviesArr] = useState();
+const App =  (props) => {
     const [selectedPath, setSelectedPath] = useState('home');
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch()
 
     const handleArtistSearch = async (searchedArtist) => {
         if (searchedArtist.trim().length != 0){
@@ -29,9 +29,9 @@ const App =  () => {
                     message.error(`No se tuvieron resultados con ${searchedArtist.trim()}`);
                     return;
                 }
-                setArtistArr(response.results)
-                setArtistInfo();
-                setMoviesArr();
+                dispatch(setArr({ type:'artistArr', data:response.results }))
+                dispatch(clearArr({ type:'artistInfo' }))
+                dispatch(clearArr({ type:'moviesArr' }))
                 if (response.results.length == 1) handleArtistPick({ id: response.results[0].id } )
                 else {
                     navigate("/filter", { replace: true })
@@ -59,8 +59,8 @@ const App =  () => {
             })
             if (response && response.success!==false) responseArr.push(response.cast);
             else throw new Error('Error del servidor');
-            setArtistInfo(responseArr[0]);
-            setMoviesArr(responseArr[1])
+            dispatch(setArr({ type:'artistInfo', data: responseArr[0]}))
+            dispatch(setArr({ type:'moviesArr', data: responseArr[1] }))
             navigate("/artist", { replace: true })
             setSelectedPath('artist');
         }catch(error){
@@ -74,28 +74,25 @@ const App =  () => {
 
     return (
         <>
-            <Navbar 
-            selectedPath={selectedPath} 
-            artistArr={artistArr} 
-            moviesArr={moviesArr}/>
+            <Navbar selectedPath={selectedPath} />
             <Routes>
                 <Route path="home" element={
                     <SearchAndDrag handleArtistSearch={ handleArtistSearch } />
                 }/>
                 <Route path="filter" element={ 
-                    artistArr ?
-                    <ArtistFilter onClick={ handleArtistPick } artistArr={ artistArr }/>:
+                    props.artistArr ?
+                    <ArtistFilter onClick={ handleArtistPick } />:
                     <Navigate to='home'/>
                 }/>
                 <Route path="artist"  element= {
-                    moviesArr ?
+                    props.moviesArr ?
                     <Layout>
                         <Layout.Sider className='sider-artist'>
-                            <ArtistCard artist={artistInfo} /> 
+                            <ArtistCard /> 
                         </Layout.Sider>
                         <Layout.Content>
-                            <ArtistCard artist={artistInfo} className='top-artist' />
-                            <MoviesList moviesArr={moviesArr} />
+                            <ArtistCard className='top-artist' />
+                            <MoviesList />
                         </Layout.Content>
                     </Layout>:
                     <Navigate to='home'/>
@@ -106,4 +103,6 @@ const App =  () => {
         </>
     );
 }
-export default App
+
+const mapStateToProps = (state) => { return{ moviesArr: state.moviesArr, artistArr: state.artistArr }}
+export default connect(mapStateToProps)(App);

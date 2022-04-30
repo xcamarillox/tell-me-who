@@ -1,6 +1,7 @@
+import { connect } from "react-redux";
 import MovieCard from "./MovieCard";
 
-export default ({moviesArr}) => {
+const MoviesList = ({moviesArr}) => {
     return (
         <div className='movies-list'>
             <h2 className='artist-movies'>Sus Películas</h2>
@@ -8,3 +9,6 @@ export default ({moviesArr}) => {
         </div>
     )
 }
+
+const mapStateToProps = (state) => { return {moviesArr: state.moviesArr} }
+export default connect(mapStateToProps)(MoviesList);

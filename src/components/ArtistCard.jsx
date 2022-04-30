@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { Image } from 'antd';
 import { LikeFilled } from '@ant-design/icons';
 
@@ -12,28 +13,31 @@ const getAge = (dateString) => {
     return age;
 }
 
-export default ({artist, className}) => {
+const ArtistCard = ({artistInfo, className}) => {
     return (
         <div className={`artist-card${ className?' '+ className: '' }`}>
-            <h1>{artist.name}</h1>
-                { artist.profile_path && 
-                    <Image src={ artist.profile_path && getImgEndpoint(artist.profile_path) } style={{ maxHeight: 400, padding:10 }} />
+            <h1>{artistInfo.name}</h1>
+                { artistInfo.profile_path && 
+                    <Image src={ artistInfo.profile_path && getImgEndpoint(artistInfo.profile_path) } style={{ maxHeight: 400, padding:10 }} />
                 }
             <h3>
-                {artist.birthday? artist.birthday: undefined} <br />
-                {!artist.deathday? (artist.birthday? getAge(artist.birthday) + ' años':'') : 'Fallecido'}
+                {artistInfo.birthday? artistInfo.birthday: undefined} <br />
+                {!artistInfo.deathday? (artistInfo.birthday? getAge(artistInfo.birthday) + ' años':'') : 'Fallecido'}
             </h3>
             <h3>
-                { artist.gender==1? 'Mujer': (artist.gender==2? 'Hombre': 'Genero Indefinido')}
+                { artistInfo.gender==1? 'Mujer': (artistInfo.gender==2? 'Hombre': 'Genero Indefinido')}
             </h3>
             <h3>
-                { artist.known_for_department? 'Conocid'+String.fromCharCode(64)+ ' por:': undefined } <br />
-                { artist.known_for_department=='Acting'? 'Actuar': (artist.known_for_department=='Directing'? 'Dirigir': artist.known_for_department)}
+                { artistInfo.known_for_department? 'Conocid'+String.fromCharCode(64)+ ' por:': undefined } <br />
+                { artistInfo.known_for_department=='Acting'? 'Actuar': (artistInfo.known_for_department=='Directing'? 'Dirigir': artistInfo.known_for_department)}
             </h3>
             <h3>
                 Popularidad: <br />
-                {Math.floor(artist.popularity)} <LikeFilled style={{ color:'blue' }}/>
+                {Math.floor(artistInfo.popularity)} <LikeFilled style={{ color:'blue' }}/>
             </h3>
         </div>
     )
 }
+
+const mapStateToProps = (state) => { return {artistInfo: state.artistInfo} }
+export default connect(mapStateToProps)(ArtistCard);

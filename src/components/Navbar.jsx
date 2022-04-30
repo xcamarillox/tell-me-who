@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react/cjs/react.development";
 import { useNavigate  } from 'react-router-dom';
+import { connect } from "react-redux";
 import { Menu } from "antd";
 import { HomeOutlined, FilterOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
-export default (props) => {
+
+const Navbar = (props) => {
   const navigate = useNavigate();
   const [items, setItems] = useState([
     { label: 'Home', key:"home", icon:<HomeOutlined />},
@@ -28,3 +30,6 @@ export default (props) => {
           items={items} 
           onClick={ onClickHandler }/>;
 };
+
+const mapStateToProps = (state) => { return{ moviesArr: state.moviesArr, artistArr: state.artistArr }}
+export default connect(mapStateToProps)(Navbar);

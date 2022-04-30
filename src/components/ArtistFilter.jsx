@@ -1,8 +1,9 @@
+import { connect } from "react-redux";
 import { Card } from "antd";
 
 import { getImgEndpoint } from '../scripts/api-helpers';
 
-export default (props) => {
+const ArtistFilter = (props) => {
   return (
     <div className='artist-card-filter' >
         { props.artistArr.map((artist, index) => 
@@ -26,3 +27,6 @@ export default (props) => {
     </div>
   )
 };
+
+const mapStateToProps = (state) => { return { artistArr: state.artistArr } }
+export default connect(mapStateToProps)(ArtistFilter);
