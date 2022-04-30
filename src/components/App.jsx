@@ -1,11 +1,11 @@
 import { useState } from "react/cjs/react.development";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { Layout, Input, message } from 'antd';
+import { Layout, message } from 'antd';
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
 import MoviesList from "./MoviesList";
 import ArtistCard from "./ArtistCard";
-import DragDrop from "./DragDrop";
+import SearchAndDrag from "./SearchAndDrag";
 import ArtistFilter from "./ArtistFilter";
 import Navbar from "./Navbar";
 
@@ -65,25 +65,12 @@ const App =  () => {
         }
     }
 
-    const inputSearchProps = {
-        placeholder:"Buscar por nómbre acá...",
-        allowClear: true,
-        enterButton:"Buscar",
-        size:"large",
-        onSearch: handleArtistSearch
-    }
-
     return (
         <>
             <Navbar selectedPath={selectedPath} setSelectedPath={setSelectedPath}/>
             <Routes>
                 <Route path="home" element={
-                    <div className='home'>
-                        <div style={{ maxWidth:300 }}>
-                            <DragDrop onSearch={ handleArtistSearch }/>
-                            <Input.Search {...inputSearchProps} style={{ marginTop: 10 }}/>
-                        </div>
-                    </div>
+                    <SearchAndDrag handleArtistSearch={ handleArtistSearch } />
                 }/>
                 <Route path="filter" element={ 
                     <ArtistFilter onClick={ handleArtistPick } artistArr={ artistArr }/> 
