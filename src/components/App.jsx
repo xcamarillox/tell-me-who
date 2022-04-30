@@ -1,5 +1,5 @@
-import { useState } from "react/cjs/react.development";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react/cjs/react.development";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { Layout, message } from 'antd';
 
 import { ACTIONS_LIST, getAPIdata } from "../scripts/api-helpers";
@@ -10,25 +10,29 @@ import ArtistFilter from "./ArtistFilter";
 import Navbar from "./Navbar";
 
 const App =  () => {
-    const [artistArr, setArtistArr] = useState([]);
-    const [artistID, setArtistID] = useState();
-    const [artistInfo, setArtistInfo] = useState({});
-    const [moviesArr, setMoviesArr] = useState([]);
+    const [artistArr, setArtistArr] = useState();
+    const [artistInfo, setArtistInfo] = useState();
+    const [moviesArr, setMoviesArr] = useState();
     const [selectedPath, setSelectedPath] = useState('home');
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleArtistSearch = async (searchedArtist) => {
-        setArtistID(undefined);
         if (searchedArtist.trim().length != 0){
             try{
                 const response = await getAPIdata({
                     type: ACTIONS_LIST.SEARCH_FOR_ARTIST,
                     searchedArtist
                 })
-                if (response && response.success!==false) setArtistArr(response.results);
-                else throw new Error('Error del servidor');
-                if (response.results.length == 0) message.error(`No se tuvieron resultados con ${searchedArtist.trim()}`);
-                else if (response.results.length == 1) onClick({ id: response.results[0].id } )
+                if (!(response && response.success!==false)) throw new Error('Error del servidor');
+                if (response.results.length == 0) {
+                    message.error(`No se tuvieron resultados con ${searchedArtist.trim()}`);
+                    return;
+                }
+                setArtistArr(response.results)
+                setArtistInfo();
+                setMoviesArr();
+                if (response.results.length == 1) handleArtistPick({ id: response.results[0].id } )
                 else {
                     navigate("/filter", { replace: true })
                     setSelectedPath('filter');
@@ -42,7 +46,6 @@ const App =  () => {
     const handleArtistPick = async ({id}) => {
         let response;
         let responseArr=[];
-        setArtistID(id);
         try{
             response = await getAPIdata({
                 type: ACTIONS_LIST.GET_ARTIST_DATA,
@@ -65,28 +68,37 @@ const App =  () => {
         }
     }
 
+    useEffect(()=>{
+      if (location.pathname != selectedPath) setSelectedPath(location.pathname.slice(1))
+    }, [location])
+
     return (
         <>
-            <Navbar selectedPath={selectedPath} setSelectedPath={setSelectedPath}/>
+            <Navbar 
+            selectedPath={selectedPath} 
+            artistArr={artistArr} 
+            moviesArr={moviesArr}/>
             <Routes>
                 <Route path="home" element={
                     <SearchAndDrag handleArtistSearch={ handleArtistSearch } />
                 }/>
                 <Route path="filter" element={ 
-                    <ArtistFilter onClick={ handleArtistPick } artistArr={ artistArr }/> 
+                    artistArr ?
+                    <ArtistFilter onClick={ handleArtistPick } artistArr={ artistArr }/>:
+                    <Navigate to='home'/>
                 }/>
                 <Route path="artist"  element= {
+                    moviesArr ?
                     <Layout>
                         <Layout.Sider className='sider-artist'>
-                            { artistID && <ArtistCard artist={artistInfo} /> }
+                            <ArtistCard artist={artistInfo} /> 
                         </Layout.Sider>
                         <Layout.Content>
                             <ArtistCard artist={artistInfo} className='top-artist' />
-                            { artistID && 
-                                <MoviesList moviesArr={moviesArr} />
-                            }
+                            <MoviesList moviesArr={moviesArr} />
                         </Layout.Content>
-                    </Layout>
+                    </Layout>:
+                    <Navigate to='home'/>
                 }/>
                 <Route path="*" element={<Navigate to='home'/>} />
             </Routes>

@@ -27,8 +27,8 @@ export default ({artist, className}) => {
                 { artist.gender==1? 'Mujer': (artist.gender==2? 'Hombre': 'Genero Indefinido')}
             </h3>
             <h3>
-                { artist.known_for_department? 'Conocid@ por:': undefined } <br />
-                { artist.known_for_department=='Acting'? 'Actuar': (artist.known_for_department=='Directing'? 'Dirigir': undefined)}
+                { artist.known_for_department? 'Conocid'+String.fromCharCode(64)+ ' por:': undefined } <br />
+                { artist.known_for_department=='Acting'? 'Actuar': (artist.known_for_department=='Directing'? 'Dirigir': artist.known_for_department)}
             </h3>
             <h3>
                 Popularidad: <br />
