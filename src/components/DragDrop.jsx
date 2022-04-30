@@ -24,9 +24,7 @@ export default (props) => {
   return (
     <Dragger {...draggerProps}>
       <h1>Tell me Who ??</h1>
-      <p className="ant-upload-drag-icon">
-        <Image preview={false} src={logo} style={{padding:10}} />
-      </p>
+      <Image preview={false} src={logo} style={{padding:10}} />
       <p className="ant-upload-text">Arrastra la imagen del actor/actriz acá...</p>
       <p className="ant-upload-hint">
         Soporta una imagen a la vez.

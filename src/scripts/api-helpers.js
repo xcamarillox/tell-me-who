@@ -32,11 +32,6 @@ export const getAPIdata = async(action) => {
 }
 
 const fetchFunctionGET = async(endpoint) => {
-    try {
-        const response = await fetch(endpoint);
-        if (response.ok) return await response.json();
-        throw new Error('Request failed! Response...', response);
-    } catch (error) {
-        console.log(error);
-    }
+    const response = await fetch(endpoint);
+    return await response.json();
 }
