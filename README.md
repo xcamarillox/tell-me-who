@@ -13,10 +13,10 @@ En el Backend se utiliza los servicios del API de **The Movie Database (TMDB)**,
  - En consola ejecuta: **git clone [https://github.com/xcamarillox/tell-me-who](https://github.com/xcamarillox/tell-me-who)** o bien puedes acceder a [https://github.com/xcamarillox/tell-me-who](https://github.com/xcamarillox/tell-me-who). En el apartado de code, seleccionar download ZIP. Esto ultimo si no te interesa el historial de commits o la data de GIT.
  - Coloca el archivo **.env** en el directorio raíz del proyecto (en el mismo lugar está el package.json). Este archivo protege las claves privadas y se te proporciona de antemano (no se incluye al proyecto de GIT/GITHUB por ese motivo).
  - En consola dirigete al directorio raíz del proyecto y ejecuta **npm install**
- - En consola ejecuta: **npm start**.
+ - En consola ejecuta: **npm start**
  - Abre tu navegador y coloca **http://localhost:1234/** en la barra de dirección. Parcel genera esa dirección generalmente, si no funciona coloca la dirección que te menciona la terminal.
  - Listo, ahora puedes hacer pruebas del proyecto. 
- - Si se busca hacer deploy ejecutar **npm build**.
+ - Si se busca hacer deploy ejecutar **npm build**
  
 
 _________________
@@ -32,12 +32,12 @@ Tools such as **Parcel** (in development) are used to "package" the code and mak
 
 In the Backend, the API services of **The Movie Database (TMDB)** are used, since it provides us with extensive cinematographic information, in addition to the private API of **Nomada Cloud** which helps us to recognize from a movie file image to the selected actor or actress.
 
-### Steps for its implementation locally
+### Steps for its local implementation
 
  - In console execute: **git clone [https://github.com/xcamarillox/tell-me-who](https://github.com/xcamarillox/tell-me-who)** or you can access [https://github.com/xcamarillox/tell-me-who](https://github.com/xcamarillox/tell-me-who). In the code section, select download ZIP. The latter if you are not interested in commit history or GIT data.
  - Place the **.env** file in the root directory of the project (in the same place is the package.json). This file protects the private keys and is provided to you in advance (it is not included in the GIT/GITHUB project for that reason).
  - In console go to the root directory of the project and run **npm install**
- - In console execute: **npm start**.
+ - In console execute: **npm start**
  - Open your browser and put **http://localhost:1234/** in the address bar. Parcel generally generates that address, if it doesn't work, put the address that the terminal mentions.
  - Ready, you can now test the project.
- - If you want to deploy run **npm build**.
+ - If you want to deploy run **npm build**
